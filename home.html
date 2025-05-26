@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SATMARG - Online Pilgrimage Planner</title>
+  <link rel="icon" type="image/png" href="PNG/lotus.png" />
+  
+
+  <!-- Link to CSS -->
+  <link rel="stylesheet" href="../CSS/style.css" />
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.2/lottie.min.js"></script>
+
+  <!-- Custom Scripts -->
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <!-- Background Video -->
+  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -11; margin: 0; pointer-events: none; overflow: hidden;">
+    <video autoplay muted loop id="bg-video" style="width: 100vw; height: 100vh; object-fit: cover; opacity: 0.38; margin: 0; pointer-events: none;">
+      <source src="video/19610476-uhd_3840_2160_30fps.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+  <header>
+  <!-- Light Animation Effect In Front of Title -->
+  <div id="light-animation-front" style="position: absolute; top: 0; left: 0; width: 100%; height: 180px; pointer-events: none; z-index: 2;">
+    <canvas id="lightCanvasFront" width="1920" height="180" style="width:100%;height:180px;display:block;"></canvas>
+  </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const canvasFront = document.getElementById('lightCanvasFront');
+    const ctxFront = canvasFront.getContext('2d');
+    let wF = canvasFront.width = window.innerWidth;
+    let hF = canvasFront.height = 180;
+    let lightsF = [];
+  
+    function resizeFront() {
+    wF = canvasFront.width = window.innerWidth;
+    hF = canvasFront.height = 180;
+    createLightsFront(10);
+    }
+    window.addEventListener('resize', resizeFront);
+  
+    function LightFront() {
+    this.x = Math.random() * wF;
+    this.y = Math.random() * hF * 0.7 + hF * 0.15;
+    this.radius = Math.random() * 25 + 18;
+    this.alpha = Math.random() * 0.25 + 0.18;
+    this.dx = (Math.random() - 0.5) * 0.6;
+    this.dy = (Math.random() - 0.5) * 0.2;
+    this.color = `rgba(255,255,255,${this.alpha})`;
+    this.glow = Math.random() * 18 + 18;
+    }
+  
+    LightFront.prototype.draw = function() {
+    ctxFront.save();
+    ctxFront.beginPath();
+    ctxFront.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctxFront.shadowColor = "#fff";
+    ctxFront.shadowBlur = this.glow;
+    ctxFront.fillStyle = this.color;
+    ctxFront.fill();
+    ctxFront.restore();
+    };
+  
+    LightFront.prototype.update = function() {
+    this.x += this.dx;
+    this.y += this.dy;
+    if (this.x < -this.radius) this.x = wF + this.radius;
+    if (this.x > wF + this.radius) this.x = -this.radius;
+    if (this.y < hF * 0.1) this.dy *= -1;
+    if (this.y > hF * 0.9) this.dy *= -1;
+    };
+  
+    function createLightsFront(num) {
+    lightsF = [];
+    for (let i = 0; i < num; i++) {
+      lightsF.push(new LightFront());
+    }
+    }
+  
+    function animateFront() {
+    ctxFront.clearRect(0, 0, wF, hF);
+    for (let light of lightsF) {
+      light.update();
+      light.draw();
+    }
+    requestAnimationFrame(animateFront);
+    }
+  
+    createLightsFront(10);
+    animateFront();
+  });
+  </script>
+    <!-- Light Animation Effect Behind Title -->
+    <div id="light-animation" style="position: absolute; top: 0; left: 0; width: 100%; height: 180px; pointer-events: none; z-index: -1;">
+      <canvas id="lightCanvas" width="1920" height="180" style="width:100%;height:180px;display:block;"></canvas>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const canvas = document.getElementById('lightCanvas');
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = 180;
+      let lights = [];
+    
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = 180;
+        createLights(12); // recreate lights to fit new width
+      }
+      window.addEventListener('resize', resize);
+    
+      function Light() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h * 0.7 + h * 0.15;
+        this.radius = Math.random() * 40 + 30;
+        this.alpha = Math.random() * 0.3 + 0.2;
+        this.dx = (Math.random() - 0.5) * 0.7;
+        this.dy = (Math.random() - 0.5) * 0.3;
+        this.color = `rgba(255,255,255,${this.alpha})`;
+        this.glow = Math.random() * 30 + 30;
+      }
+    
+      Light.prototype.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.shadowColor = "#fff";
+        ctx.shadowBlur = this.glow;
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+      };
+    
+      Light.prototype.update = function() {
+        this.x += this.dx;
+        this.y += this.dy;
+        if (this.x < -this.radius) this.x = w + this.radius;
+        if (this.x > w + this.radius) this.x = -this.radius;
+        if (this.y < h * 0.1) this.dy *= -1;
+        if (this.y > h * 0.9) this.dy *= -1;
+      };
+    
+      function createLights(num) {
+        lights = [];
+        for (let i = 0; i < num; i++) {
+          lights.push(new Light());
+        }
+      }
+    
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        for (let light of lights) {
+          light.update();
+          light.draw();
+        }
+        requestAnimationFrame(animate);
+      }
+    
+      createLights(12);
+      animate();
+    });
+    </script>
+    <div class="tab-header" style="display: flex; justify-content: center; align-items: center; margin: 1.5em 0 0.5em 0;">
+      <div style="background: #fff; border-radius: 2em; box-shadow: 0 6px 32px rgba(44,62,80,0.15); padding: 0.7em 3em; display: flex; align-items: center; border: 2.5px solid #ff6600; gap: 1.5em;">
+        <img src="PNG/lotus.png" alt="Lotus" style="width: 54px; height: 54px; margin-right: 0.5em; filter: drop-shadow(0 2px 12px #00fff2ac);">
+        <span style="font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 2.7em; font-weight: 900; letter-spacing: 0.22em; background: linear-gradient(90deg, #ff6600 40%, #00fff2ac 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 16px rgba(44,62,80,0.12); display: flex; align-items: center;">
+          S
+          <span style="color:#ff6600; margin: 0 0.1em;">A</span>
+          <span style="margin: 0 0.1em;">T</span>
+          <span style="color:#00fff2ac; margin: 0 0.18em;">M</span>
+          <span style="color:#ff6600; margin: 0 0.1em;">A</span>
+          <span style="color:#00fff2ac; margin: 0 0.18em;">R</span>
+          <span style="color:#ff6600; margin: 0 0.1em;">G</span>
+        <img src="PNG/lotus.png" alt="Lotus" style="width: 54px; height: 54px; margin-left: 1em; filter: drop-shadow(0 2px 8px #00fff2ac);">
+        </span>
+      </div>
+      
+    </div>
+    <p class="subtitle">Your Spiritual Journey Begins Here</p>
+  </header>
+
+  <nav>
+    <!-- Decent animated underline for active tab using PNG and subtle transitions -->
+    <style>
+      .nav-menu {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 2.5em;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: linear-gradient(90deg, #ff6600 0%, #ffb347 40%, #00fff2 80%, #0099cc 100%);
+      background-size: 400% 100%;
+      animation: navMenuBgAnim 8s linear infinite alternate;
+      position: relative;
+      background: rgba(235, 239, 234, 0.724);
+      border-radius: 2em;
+      box-shadow: 0 4px 24px rgba(44,62,80,0.08);
+      min-height: 56px;
+      }
+      .nav-menu li {
+      position: relative;
+      z-index: 1;
+      }
+      .nav-menu a {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 1.13em;
+      font-weight: 700;
+      color: #2c3e50;
+      text-decoration: none;
+      padding: 0.7em 1.7em;
+      border-radius: 1.5em;
+      transition: color 0.18s, background 0.18s, box-shadow 0.18s;
+      position: relative;
+      z-index: 2;
+      background: transparent;
+      box-shadow: none;
+      }
+      .nav-menu a.active,
+      .nav-menu a:hover,
+      .nav-menu a:focus {
+      color: #fff;
+      background: linear-gradient(90deg, #f7c873 60%, #b2e6e6 100%);
+      box-shadow: 0 2px 16px #b2e6e6a0, 0 1px 8px #f7c873a0;
+      text-shadow: 0 2px 12px #b2e6e6ac, 0 1px 8px #f7c873a0;
+      }
+      .nav-underline {
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      height: 18px;
+      width: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.92;
+      background: none;
+      transition: none;
+      display: flex;
+      align-items: flex-end;
+      }
+      .nav-underline-img {
+      width: 100%;
+      height: 18px;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 8px #b2e6e6a0) drop-shadow(0 1px 4px #f7c873a0);
+      opacity: 0.85;
+      transition: filter 0.3s;
+      }
+      .nav-menu:hover {
+      box-shadow: 0 6px 32px 0 #b2e6e6a0, 0 2px 12px #f7c873a0;
+      }
+
+      /* Animated background text behind nav */
+      .nav-bg-text {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1.2);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 4.5em;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: #ff6600;
+      opacity: 0.10;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
+      filter: blur(1.5px) drop-shadow(0 2px 18px #00fff2);
+      animation: navBgTextAnim 8s linear infinite alternate;
+      background: linear-gradient(90deg, #ff6600 0%, #00fff2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      }
+      @keyframes navBgTextAnim {
+      0% { letter-spacing: 0.18em; filter: blur(1.5px) drop-shadow(0 2px 18px #00fff2); opacity: 0.10; }
+      50% { letter-spacing: 0.28em; filter: blur(2.5px) drop-shadow(0 2px 28px #ff6600); opacity: 0.16; }
+      100% { letter-spacing: 0.18em; filter: blur(1.5px) drop-shadow(0 2px 18px #00fff2); opacity: 0.10; }
+      }
+  </style>
+  <ul class="nav-menu">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="destination.html">Destination</a></li>
+    <li><a href="booking.html">Booking</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  </nav>
+  <main>
+    <section class="hero">
+      <h3 class="rainbow-professional">Plan Your Pilgrimage With Ease</h3>
+      <style>
+        .rainbow-professional {
+          background: linear-gradient(90deg, #ff6600 0%, #ffb347 25%, #00fff2 60%, #0099cc 85%, #ff6600 100%);
+          background-size: 300% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          animation: rainbow-professional-move 6s cubic-bezier(.4,0,.2,1) infinite;
+          font-weight: 900;
+          letter-spacing: 0.08em;
+          font-size: 2.1em;
+        }
+        @keyframes rainbow-professional-move {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      </style>
+      <p>Discover top holy places, plan your routes, book darshan, and stay – all in one place.</p>
+      <a href="destination.html" class="btn animated-btn" id="exploreBtn">
+        <span class="btn-bg"></span>
+        <span class="btn-text">Explore Destinations</span>
+        <span class="btn-glow"></span>
+      </a>
+      <style>
+      .animated-btn {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0;
+        border-radius: 2em;
+        background: transparent;
+        box-shadow: 0 4px 32px rgba(44,62,80,0.10);
+        cursor: pointer;
+        min-width: 240px;
+        min-height: 56px;
+        text-decoration: none;
+        margin-top: 2em;
+        transition: transform 0.18s cubic-bezier(.4,2,.6,1);
+      }
+      .animated-btn .btn-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #ff6600 0%, #00fff2 100%);
+        opacity: 0.92;
+        z-index: 1;
+        transition: filter 0.3s;
+        filter: blur(0px);
+      }
+      .animated-btn .btn-text {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 1.25em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #fff;
+        padding: 0.9em 2.5em;
+        text-shadow: 0 2px 12px #00fff2ac, 0 1px 8px #ff6600a0;
+        transition: color 0.2s;
+      }
+      .animated-btn .btn-glow {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 180%;
+        height: 180%;
+        background: radial-gradient(circle, #00fff2 0%, #ff6600 60%, transparent 100%);
+        opacity: 0.18;
+        transform: translate(-50%, -50%) scale(1);
+        z-index: 0;
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+        filter: blur(12px);
+      }
+      .animated-btn:hover, .animated-btn:focus {
+        transform: scale(1.045) rotate(-1deg);
+      }
+      .animated-btn:hover .btn-bg {
+        filter: blur(2.5px) brightness(1.08);
+      }
+      .animated-btn:hover .btn-glow {
+        opacity: 0.32;
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+      .animated-btn:active {
+        transform: scale(0.97);
+      }
+      </style>
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const btn = document.getElementById("exploreBtn");
+        // GSAP pulse and shine animation
+        gsap.set(btn, { scale: 1 });
+        gsap.to(btn, {
+          scale: 1.06,
+          repeat: -1,
+          yoyo: true,
+          duration: 1.2,
+          ease: "power1.inOut"
+        });
+        // Shine effect
+        const shine = document.createElement("span");
+        shine.style.position = "absolute";
+        shine.style.left = "-60%";
+        shine.style.top = "0";
+        shine.style.width = "60%";
+        shine.style.height = "100%";
+        shine.style.background = "linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.0) 100%)";
+        shine.style.transform = "skewX(-24deg)";
+        shine.style.zIndex = "3";
+        shine.style.pointerEvents = "none";
+        shine.style.transition = "none";
+        btn.appendChild(shine);
+
+        btn.addEventListener("mouseenter", () => {
+          gsap.fromTo(shine, { left: "-60%" }, {
+            left: "120%",
+            duration: 1.1,
+            ease: "power2.inOut",
+            clearProps: "left"
+          });
+        });
+      });
+      </script>
+    </section>
+
+      <section class="features" style="display: flex; justify-content: center; gap: 2.5em; margin: 2.5em 0;">
+        <div class="feature" style="flex: 1; min-width: 220px; max-width: 320px; background: rgba(255,255,255,0.92); border-radius: 1.2em; box-shadow: 0 8px 36px 0 rgba(44,62,80,0.16), 0 1.5px 0 #ff6600 inset; padding: 2em 1.5em; text-align: center; border: 2px solid #ff6600; position: relative; overflow: hidden;">
+          <img src="PNG/temple.png" alt="Temple Icon" style="width: 54px; height: 54px; margin-bottom: 1em; filter: drop-shadow(0 4px 16px #ff6600a0);" />
+          <h4 style="font-size: 1.3em; color: #ff6600; margin-bottom: 0.5em;">Top Destinations</h4>
+          <p style="color: #444;">Explore the most revered holy places across the country.</p>
+          <div style="position: absolute; left: 0; right: 0; bottom: -2px; height: 48px; background: linear-gradient(0deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.0) 100%); opacity: 0.85; pointer-events: none; filter: blur(2.5px);"></div>
+        </div>
+        <div class="feature" style="flex: 1; min-width: 220px; max-width: 320px; background: rgba(255,255,255,0.92); border-radius: 1.2em; box-shadow: 0 8px 36px 0 rgba(44,62,80,0.16), 0 1.5px 0 #00fff2ac inset; padding: 2em 1.5em; text-align: center; border: 2px solid #00fff2ac; position: relative; overflow: hidden;">
+          <img src="PNG/route.png" alt="Route Icon" style="width: 54px; height: 54px; margin-bottom: 1em; filter: drop-shadow(0 4px 16px #00fff2a0);" />
+          <h4 style="font-size: 1.3em; color: #00fff2ac; margin-bottom: 0.5em;">Route Planning</h4>
+          <p style="color: #444;">Plan your journey with optimized routes and travel tips.</p>
+          <div style="position: absolute; left: 0; right: 0; bottom: -2px; height: 48px; background: linear-gradient(0deg, rgba(0,255,242,0.22) 0%, rgba(255,255,255,0.0) 100%); opacity: 0.85; pointer-events: none; filter: blur(2.5px);"></div>
+        </div>
+        <div class="feature" style="flex: 1; min-width: 220px; max-width: 320px; background: rgba(255,255,255,0.92); border-radius: 1.2em; box-shadow: 0 8px 36px 0 rgba(44,62,80,0.16), 0 1.5px 0 #ff6600 inset; padding: 2em 1.5em; text-align: center; border: 2px solid #ff6600; position: relative; overflow: hidden;">
+          <img src="PNG/booking.png" alt="Booking Icon" style="width: 54px; height: 54px; margin-bottom: 1em; filter: drop-shadow(0 4px 16px #ff6600a0);" />
+          <h4 style="font-size: 1.3em; color: #ff6600; margin-bottom: 0.5em;">Easy Booking</h4>
+          <p style="color: #444;">Book darshan, accommodations, and transport effortlessly.</p>
+          <div style="position: absolute; left: 0; right: 0; bottom: -2px; height: 48px; background: linear-gradient(0deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.0) 100%); opacity: 0.85; pointer-events: none; filter: blur(2.5px);"></div>
+        </div>
+      </section>
+  </main>
+
+ <!-- Footer -->
+  <footer style="background: #2c3e50; color: #fff; text-align: center; padding: 20px; position: relative; border-top: 2px solid #ff6600;">
+    <p style="font-family: 'Arial', sans-serif; font-size: 0.9em; color: #bdc3c7; margin: 0;">
+      &copy; 2025 <span style="color: #ff6600; font-weight: bold;">SATMARG</span> | Designed by <span style="color: #00fff2ac; font-weight: bold;">MRIT SHARMA</span>
+    </p>
+    <div style="margin-top: 10px;">
+      <a href="https://www.instagram.com/anvayamrit/?__pwa=1" target="_blank" style="margin: 0 10px; color: #fff; text-decoration: none;">
+        <img src="PNG/instagram.png" alt="Instagram" style="width: 24px; height: 24px; vertical-align: middle;">
+      </a>
+      <a href="mailto:chekeshwar@gmail.com" style="margin: 0 10px; color: #fff; text-decoration: none;">
+        <img src="PNG/gmail.png" alt="Gmail" style="width: 24px; height: 24px; vertical-align: middle;">
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" style="margin: 0 10px; color: #fff; text-decoration: none;">
+        <img src="PNG/linkedin.png" alt="LinkedIn" style="width: 24px; height: 24px; vertical-align: middle;">
+      </a>
+      <a href="https://support.google.com/maps/?hl=en#topic=3092425" style="margin: 0 10px; color: #fff; text-decoration: none;">
+        <img src="PNG/customer-service (1).png" alt="Contact" style="width: 34px; height: 34px; vertical-align: middle;">
+      </a>
+    </div>
+  </footer>
+  <script type="module" src="main.js"></script>
+</body>
+<!-- World-class animated background using particles.js and GSAP -->
+<!-- Particle.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<!-- GSAP for advanced animation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<!-- Animated Particle Background -->
+<div id="particles-js" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-10;"></div>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 80, "density": { "enable": true, "value_area": 900 } },
+      "color": { "value": ["#ff6600", "#00fff2", "#fff"] },
+      "shape": {
+        "type": ["circle", "edge", "triangle"],
+        "stroke": { "width": 0, "color": "#000" }
+      },
+      "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.2, "sync": false } },
+      "size": { "value": 6, "random": true, "anim": { "enable": true, "speed": 4, "size_min": 2, "sync": false } },
+      "line_linked": { "enable": true, "distance": 150, "color": "#ff6600", "opacity": 0.2, "width": 1 },
+      "move": { "enable": true, "speed": 1.8, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" },
+        "resize": true
+      },
+      "modes": {
+        "repulse": { "distance": 120, "duration": 0.4 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+    "retina_detect": true
+  });
+
+  // GSAP: Animate the main title on load
+  document.addEventListener("DOMContentLoaded", function() {
+    gsap.from(".tab-header", {
+      y: -80,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power4.out"
+    });
+    gsap.from(".subtitle", {
+      y: 40,
+      opacity: 0,
+      delay: 0.7,
+      duration: 1.1,
+      ease: "power2.out"
+    });
+    gsap.from(".nav-menu li", {
+      y: -30,
+      opacity: 0,
+      stagger: 0.12,
+      delay: 0.5,
+      duration: 0.8,
+      ease: "back.out(1.7)"
+    });
+    gsap.from(".hero h3, .hero p, .hero .btn", {
+      y: 40,
+      opacity: 0,
+      stagger: 0.18,
+      delay: 1.1,
+      duration: 1,
+      ease: "power2.out"
+    });
+    gsap.from(".feature", {
+      scale: 0.7,
+      opacity: 0,
+      stagger: 0.18,
+      delay: 1.5,
+      duration: 1.1,
+      ease: "elastic.out(1, 0.7)"
+    });
+    gsap.from("footer", {
+      y: 60,
+      opacity: 0,
+      delay: 2.2,
+      duration: 1,
+      ease: "power2.out"
+    });
+  });
+</script>
+<!-- Smooth page fade-in effect -->
+<style>
+  body {
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(.4,0,.2,1);
+  }
+  body.page-loaded {
+    opacity: 1;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.body.classList.add("page-loaded");
+  });
+</script>
+</html>
