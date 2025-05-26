@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary: #4f8a8b;
+  --secondary: #fbd46d;
+  --accent: #f76b8a;
+  --background: #f9f9f9;
+  --surface: #ffffff;
+  --text: #22223b;
+  --header: #355c7d;
+  --nav: #6a0572;
+  --nav-hover: #ab83a1;
+  --btn: #43aa8b;
+  --btn-hover: #254441;
+  --card-title: #355c7d;
+  --card-bg: #fffbea;
+  --footer: #22223b;
+}
+
+/* Apply new color palette */
+body {
+  background: var(--background);
+  color: var(--text);
+}
+header {
+  background-color: var(--header);
+}
+nav {
+  background-color: var(--nav);
+}
+nav ul li a {
+  color: var(--secondary);
+}
+nav ul li a:hover {
+  background-color: var(--nav-hover);
+}
+.hero {
+  background: linear-gradient(120deg, var(--primary) 60%, var(--accent) 100%);
+  color: var(--surface);
+}
+.btn {
+  background-color: var(--btn);
+  color: var(--surface);
+}
+.btn:hover {
+  background-color: var(--btn-hover);
+}
+.card, .project-card {
+  background-color: var(--card-bg);
+  color: var(--text);
+}
+.card-title, .project-card h3 {
+  color: var(--card-title);
+}
+footer {
+  background-color: var(--footer);
+  color: var(--secondary);
+}
+.tabs {
+  background: linear-gradient(90deg, var(--secondary), var(--primary), var(--accent), var(--secondary));
+}
+.tabs button {
+  background-color: var(--primary);
+}
+.tabs button.active {
+  background-color: var(--accent);
+}
+.location-card {
+  background: var(--surface);
+  border: 2px solid var(--primary);
+}
+/* Body Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: url('images/leaves-white-BG.avif') no-repeat center center fixed;
+  background-size: cover;
+  filter: brightness(0.9);
+  animation: backgroundFade 10s infinite alternate;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Background Animation */
+@keyframes backgroundFade {
+  0% {
+    filter: brightness(0.8);
+  }
+  50% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(0.9);
+  }
+}
+
+/* Header */
+header {
+  background-color: #ee843d;
+  color: white;
+  padding: 25px 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+header h1 {
+  font-size: 2.8em;
+  font-weight: 600;
+}
+header p {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Navigation */
+nav {
+  background-color: #00695c;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
+nav ul li {
+  margin: 0 20px;
+}
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+nav ul li a:hover {
+  background-color: #004d40;
+  transform: scale(1.1);
+}
+
+/* Hero Section */
+.hero {
+  background: url('images/madurai.jpg') no-repeat center center/cover;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  background-color: rgba(0, 0, 0, 0.25);
+  min-height: 300px;
+}
+.hero h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+}
+.hero p {
+  font-size: 1.2em;
+  margin-top: 15px;
+}
+
+/* Buttons */
+.btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: background 0.3s ease, transform 0.2s;
+}
+.btn:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+/* Cards */
+.card {
+  background-color: white;
+  padding: 25px;
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  margin: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card-title {
+  font-family: 'Kalam', cursive;
+  font-size: 1.5em;
+  color: #004d40;
+  margin-bottom: 10px;
+}
+.card-description {
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+}
+.card::before {
+  content: '';
+  display: block;
+  height: 150px;
+  background: url('images/Sharpie Canvas Art.jpeg') no-repeat center center/cover;
+  border-radius: 8px 8px 0 0;
+  margin: -25px -25px 20px -25px;
+}
+
+/* Project Section */
+.project-section {
+  padding: 50px 20px;
+  background-image: url('images/rangoli.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+.project-section h2 {
+  font-size: 2.5em;
+  color: #004d40;
+  margin-bottom: 20px;
+}
+.project-section p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 30px;
+}
+.project-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.project-card {
+  background-color: white;
+  padding: 20px;
+  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.project-card h3 {
+  font-size: 1.5em;
+  color: #004d40;
+  margin-bottom: 10px;
+}
+.project-card p {
+  font-size: 1em;
+  color: #666;
+  line-height: 1.5;
+}
+.project-card a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #00796b;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+.project-card a:hover {
+  background-color: #004d40;
+}
+
+/* Forms */
+form {
+  background: white;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+form input[type="submit"] {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+form input[type="submit"]:hover {
+  background-color: #1b5e20;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  /* Creative animated tab background */
+  background: linear-gradient(90deg, #ffb347, #ffcc33, #2e7d32, #00bcd4, #ffb347);
+  background-size: 400% 400%;
+  animation: tabBgMove 8s ease-in-out infinite;
+  box-shadow: 0 4px 20px rgba(0, 188, 212, 0.15), 0 1.5px 6px rgba(255, 179, 71, 0.12);
+  background-color: #004d40;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tabs button {
+  flex: 1;
+  padding: 15px;
+  background-color: #00695c;
+  color: white;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+}
+.tabs button:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
+}
+.tabs button.active {
+  background-color: #2e7d32;
+}
+.tab-content {
+  display: none;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.tab-content.active {
+  display: block;
+}
+
+/* Footer */
+footer {
+  background-color: #004d40;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  .hero {
+    padding: 50px;
+    text-align: center;
+  }
+  .card {
+    width: 90%;
+    margin: 10px auto;
+  }
+}
+.location-card {
+  background: #f0f8ff;
+  margin: 10px 0;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+/* World-class vibrant gradient background for a section */
+.world-best-color {
+  background: linear-gradient(135deg, #ffb347 0%, #ffcc33 25%, #43aa8b 50%, #355c7d 75%, #f76b8a 100%);
+  color: #fffbea;
+  padding: 40px 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(52, 90, 120, 0.18);
+  font-family: 'Kalam', cursive;
+  text-align: center;
+  animation: worldBestGradient 10s ease-in-out infinite alternate;
+}
+
+@keyframes worldBestGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Background Video Style */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Content on top of the video */
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  /* Add a subtle glassmorphism effect */
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 8px 32px rgba(52, 90, 120, 0.18), 0 1.5px 6px rgba(255, 179, 71, 0.12);
+  border: 2px solid rgba(255,255,255,0.18);
+  /* Add a vibrant animated border gradient */
+  position: relative;
+}
+.content::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: 22px;
+  background: linear-gradient(120deg, #ffb347, #43aa8b, #355c7d, #f76b8a, #ffcc33);
+  background-size: 300% 300%;
+  animation: borderGradientMove 8s ease-in-out infinite;
+  opacity: 0.7;
+}
+@keyframes borderGradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
